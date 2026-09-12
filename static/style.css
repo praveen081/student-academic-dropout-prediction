@@ -1,0 +1,351 @@
+/* =====================================================
+   STUDENT DROPOUT RISK PREDICTION
+   Modern Professional UI
+   ===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eef4ff, #f8fafc);
+    color: #1e293b;
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+   ===================================================== */
+
+.container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.header h1 {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #172554;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 17px;
+    color: #64748b;
+}
+
+
+/* =====================================================
+   MAIN CARD
+   ===================================================== */
+
+.card {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 40px;
+    box-shadow:
+        0 20px 40px rgba(15, 23, 42, 0.08),
+        0 4px 10px rgba(15, 23, 42, 0.04);
+}
+
+.card h2 {
+    font-size: 25px;
+    color: #1e293b;
+    margin-bottom: 30px;
+}
+
+
+/* =====================================================
+   FORM
+   ===================================================== */
+
+.form-group {
+    margin-bottom: 23px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+
+/* =====================================================
+   INPUTS
+   ===================================================== */
+
+input,
+select {
+    width: 100%;
+    height: 48px;
+    padding: 0 15px;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    color: #1e293b;
+    background: #ffffff;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+input::placeholder {
+    color: #94a3b8;
+}
+
+input:hover,
+select:hover {
+    border-color: #94a3b8;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+
+/* =====================================================
+   PREDICT BUTTON
+   ===================================================== */
+
+button {
+    width: 100%;
+    height: 52px;
+
+    margin-top: 8px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #2563eb;
+    color: white;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+button:hover {
+    background: #1d4ed8;
+
+    box-shadow:
+        0 8px 18px rgba(37, 99, 235, 0.22);
+
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+
+/* =====================================================
+   LOADING
+   ===================================================== */
+
+.loading {
+    margin-top: 25px;
+    padding: 15px;
+
+    text-align: center;
+
+    color: #2563eb;
+    font-size: 15px;
+    font-weight: 600;
+
+    background: #eff6ff;
+    border-radius: 9px;
+}
+
+
+/* =====================================================
+   RESULT BOX
+   ===================================================== */
+
+.result {
+    margin-top: 30px;
+    padding: 28px;
+
+    text-align: center;
+
+    border-radius: 14px;
+
+    transition: all 0.3s ease;
+}
+
+.result h2 {
+    margin-bottom: 15px;
+    font-size: 27px;
+}
+
+
+/* SAFE */
+
+.result.safe {
+    background: #ecfdf5;
+    border: 1px solid #86efac;
+}
+
+.result.safe h2 {
+    color: #047857;
+}
+
+
+/* AT RISK */
+
+.result.risk {
+    background: #fff1f2;
+    border: 1px solid #fda4af;
+}
+
+.result.risk h2 {
+    color: #be123c;
+}
+
+
+/* =====================================================
+   PROBABILITY
+   ===================================================== */
+
+.probability {
+    margin-bottom: 12px;
+
+    font-size: 18px;
+    color: #334155;
+}
+
+.probability strong {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   RECOMMENDATION
+   ===================================================== */
+
+#recommendation {
+    margin-top: 10px;
+
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   ERROR
+   ===================================================== */
+
+.error {
+    margin-top: 20px;
+    padding: 15px;
+
+    text-align: center;
+
+    color: #991b1b;
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+
+.footer {
+    text-align: center;
+    margin-top: 30px;
+
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   HIDDEN
+   ===================================================== */
+
+.hidden {
+    display: none;
+}
+
+
+/* =====================================================
+   RESPONSIVE DESIGN
+   ===================================================== */
+
+@media (max-width: 650px) {
+
+    .container {
+        padding: 30px 15px;
+    }
+
+    .header h1 {
+        font-size: 29px;
+    }
+
+    .header p {
+        font-size: 15px;
+    }
+
+    .card {
+        padding: 25px 20px;
+    }
+
+    .card h2 {
+        font-size: 22px;
+    }
+
+    .result {
+        padding: 22px 15px;
+    }
+}

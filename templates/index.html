@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dropout Risk Prediction</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Student Dropout Risk Prediction</h1>
+            <p>
+                AI-powered prediction of student academic dropout risk
+            </p>
+        </div>
+
+
+        <div class="card">
+
+            <h2>Enter Student Details</h2>
+
+            <form id="predictionForm">
+
+                <!-- Study Hours -->
+                <div class="form-group">
+                    <label for="study_hours">
+                        Study Hours per Day
+                    </label>
+
+                    <input
+                        type="number"
+                        id="study_hours"
+                        name="study_hours"
+                        min="0"
+                        max="24"
+                        step="0.1"
+                        placeholder="Example: 5"
+                        required
+                    >
+                </div>
+
+
+                <!-- Attendance -->
+                <div class="form-group">
+                    <label for="attendance_percentage">
+                        Attendance Percentage
+                    </label>
+
+                    <input
+                        type="number"
+                        id="attendance_percentage"
+                        name="attendance_percentage"
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        placeholder="Example: 75"
+                        required
+                    >
+                </div>
+
+
+                <!-- GPA -->
+                <div class="form-group">
+                    <label for="previous_gpa">
+                        Previous GPA
+                    </label>
+
+                    <input
+                        type="number"
+                        id="previous_gpa"
+                        name="previous_gpa"
+                        min="0"
+                        max="10"
+                        step="0.1"
+                        placeholder="Example: 7.5"
+                        required
+                    >
+                </div>
+
+
+                <!-- Parental Education -->
+                <div class="form-group">
+
+                    <label for="parental_education">
+                        Parental Education
+                    </label>
+
+                    <select
+                        id="parental_education"
+                        name="parental_education"
+                        required
+                    >
+
+                        <option value="">
+                            Select Education Level
+                        </option>
+
+                        <option value="High School">
+                            High School
+                        </option>
+
+                        <option value="Diploma">
+                            Diploma
+                        </option>
+
+                        <option value="Bachelor">
+                            Bachelor
+                        </option>
+
+                        <option value="Master">
+                            Master
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button type="submit" id="predictButton">
+                    Predict Dropout Risk
+                </button>
+
+            </form>
+
+
+            <!-- Loading -->
+            <div id="loading" class="loading hidden">
+                Analyzing student data...
+            </div>
+
+
+            <!-- Result -->
+            <div id="result" class="result hidden">
+
+                <h2 id="prediction"></h2>
+
+                <div class="probability">
+                    At-Risk Probability:
+                    <strong id="riskProbability"></strong>
+                </div>
+
+                <p id="recommendation"></p>
+
+            </div>
+
+
+            <!-- Error -->
+            <div id="error" class="error hidden"></div>
+
+        </div>
+
+
+        <div class="footer">
+            <p>
+                Student Academic Performance & Dropout Risk Prediction
+            </p>
+
+            <p>
+                Machine Learning • Random Forest • Logistic Regression
+            </p>
+        </div>
+
+    </div>
+
+
+    <script src="/static/script.js"></script>
+
+</body>
+</html>
