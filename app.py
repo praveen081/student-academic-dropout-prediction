@@ -144,6 +144,19 @@ def generate_recommendations(
 
     return recommendations
 
+# ---------------------------------------------------------
+# DASHBOARD PAGE
+# ---------------------------------------------------------
+
+@app.get("/dashboard", response_class=HTMLResponse)
+def dashboard_page(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="dashboard.html",
+        context={"request": request},
+    )
+
 
 # ---------------------------------------------------------
 # PREDICTION API
