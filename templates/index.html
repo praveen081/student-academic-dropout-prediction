@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Student Dropout Risk Prediction</title>
+    <title>Student Academic Risk Analytics</title>
 
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -13,22 +14,43 @@
 
     <div class="container">
 
+        <!-- HEADER -->
         <div class="header">
-            <h1>Student Dropout Risk Prediction</h1>
+
+            <div class="badge">
+                EARLY-WARNING SYSTEM
+            </div>
+
+            <h1>
+                Student Academic Risk Analytics
+            </h1>
+
             <p>
-                AI-powered prediction of student academic dropout risk
+                Machine Learning Based Student Dropout Risk Prediction
             </p>
+
         </div>
 
 
+        <!-- MAIN CARD -->
         <div class="card">
 
-            <h2>Enter Student Details</h2>
+            <h2>
+                Student Assessment
+            </h2>
 
+            <p class="section-description">
+                Enter the student's academic information to estimate
+                their dropout risk.
+            </p>
+
+
+            <!-- FORM -->
             <form id="predictionForm">
 
-                <!-- Study Hours -->
+                <!-- STUDY HOURS -->
                 <div class="form-group">
+
                     <label for="study_hours">
                         Study Hours per Day
                     </label>
@@ -43,11 +65,13 @@
                         placeholder="Example: 5"
                         required
                     >
+
                 </div>
 
 
-                <!-- Attendance -->
+                <!-- ATTENDANCE -->
                 <div class="form-group">
+
                     <label for="attendance_percentage">
                         Attendance Percentage
                     </label>
@@ -62,11 +86,13 @@
                         placeholder="Example: 75"
                         required
                     >
+
                 </div>
 
 
                 <!-- GPA -->
                 <div class="form-group">
+
                     <label for="previous_gpa">
                         Previous GPA
                     </label>
@@ -81,10 +107,11 @@
                         placeholder="Example: 7.5"
                         required
                     >
+
                 </div>
 
 
-                <!-- Parental Education -->
+                <!-- PARENTAL EDUCATION -->
                 <div class="form-group">
 
                     <label for="parental_education">
@@ -122,48 +149,122 @@
                 </div>
 
 
-                <button type="submit" id="predictButton">
-                    Predict Dropout Risk
+                <!-- BUTTON -->
+                <button
+                    type="submit"
+                    id="predictButton"
+                >
+                    Analyze Student Risk
                 </button>
 
             </form>
 
 
-            <!-- Loading -->
-            <div id="loading" class="loading hidden">
+            <!-- LOADING -->
+            <div
+                id="loading"
+                class="loading hidden"
+            >
                 Analyzing student data...
             </div>
 
 
-            <!-- Result -->
-            <div id="result" class="result hidden">
+            <!-- RESULT -->
+            <div
+                id="result"
+                class="result hidden"
+            >
 
-                <h2 id="prediction"></h2>
+                <div class="result-header">
 
-                <div class="probability">
-                    At-Risk Probability:
-                    <strong id="riskProbability"></strong>
+                    <span class="result-label">
+                        MODEL PREDICTION
+                    </span>
+
+                    <h2 id="prediction"></h2>
+
                 </div>
 
-                <p id="recommendation"></p>
+
+                <!-- RISK SCORE -->
+                <div class="risk-score-card">
+
+                    <div class="score-title">
+                        Dropout Risk Score
+                    </div>
+
+                    <div
+                        id="riskProbability"
+                        class="risk-score"
+                    >
+                        0%
+                    </div>
+
+                    <div
+                        id="riskLevel"
+                        class="risk-level"
+                    >
+                        LOW
+                    </div>
+
+                </div>
+
+
+                <!-- RISK FACTORS -->
+                <div class="analysis-section">
+
+                    <h3>
+                        Why this risk level?
+                    </h3>
+
+                    <ul
+                        id="riskFactors"
+                        class="analysis-list"
+                    >
+                    </ul>
+
+                </div>
+
+
+                <!-- RECOMMENDATIONS -->
+                <div class="analysis-section">
+
+                    <h3>
+                        Recommended Actions
+                    </h3>
+
+                    <ul
+                        id="recommendations"
+                        class="analysis-list"
+                    >
+                    </ul>
+
+                </div>
 
             </div>
 
 
-            <!-- Error -->
-            <div id="error" class="error hidden"></div>
+            <!-- ERROR -->
+            <div
+                id="error"
+                class="error hidden"
+            >
+            </div>
 
         </div>
 
 
+        <!-- FOOTER -->
         <div class="footer">
+
             <p>
-                Student Academic Performance & Dropout Risk Prediction
+                Student Academic Risk Analytics & Early-Warning System
             </p>
 
             <p>
-                Machine Learning • Random Forest • Logistic Regression
+                Machine Learning • Random Forest • Logistic Regression • FastAPI
             </p>
+
         </div>
 
     </div>
@@ -172,4 +273,5 @@
     <script src="/static/script.js"></script>
 
 </body>
+
 </html>
