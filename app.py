@@ -2,6 +2,7 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
+import sqlite3
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -10,6 +11,7 @@ from fastapi.templating import Jinja2Templates
 
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "models" / "best_model.joblib"
+DB_PATH = BASE_DIR / "students.db"
 
 app = FastAPI(
     title="Student Academic Risk Analytics & Early-Warning System",
@@ -324,3 +326,207 @@ def health_check():
         "model_available": MODEL_PATH.exists(),
         "version": "2.0.0",
     }
+    # ---------------------------------------------------------
+# ANALYTICS DASHBOARD API
+# ---------------------------------------------------------
+
+@app.get("/api/dashboard")
+def dashboard():
+
+    if not DB_PATH.exists():
+        return {
+            "success": False,
+            "error": "Database not found."
+        }
+
+    try:
+
+        with sqlite3.connect(DB_PATH) as connection:
+
+            query = """
+                SELECT
+                    study_hours,
+                    attendance_percentage,
+                    previous_gpa,
+                    parental_education,
+                    passed_status
+                FROM student_performance
+            """
+
+            df = pd.read_sql_query(
+                query,
+                connection
+            )
+
+        # ---------------------------------------------
+        # Basic statistics
+        # ---------------------------------------------
+
+        total_students = len(df)
+
+        at_risk_students = int(
+            (df["passed_status"] == 0).sum()
+        )
+
+        safe_students = int(
+            (df["passed_status"] == 1).sum()
+        )
+
+        average_gpa = round(
+            df["previous_gpa"].mean(),
+            2
+        )
+
+        average_attendance = round(
+            df["attendance_percentage"].mean(),
+            2
+        )
+
+        average_study_hours = round(
+            df["study_hours"].mean(),
+            2
+        )
+
+        # ---------------------------------------------
+        # Risk percentage
+        # ---------------------------------------------
+
+        at_risk_percentage = round(
+            (at_risk_students / total_students) * 100,
+            2
+        )
+
+        safe_percentage = round(
+            (safe_students / total_students) * 100,
+            2
+        )
+
+        # ---------------------------------------------
+        # Parental education distribution
+        # ---------------------------------------------
+
+        education_distribution = (
+            df["parental_education"]
+            .fillna("Unknown")
+            .value_counts()
+            .to_dict()
+        )
+
+        # ---------------------------------------------
+        # Risk distribution
+        # ---------------------------------------------
+
+        risk_distribution = {
+            "At Risk": at_risk_students,
+            "Safe": safe_students
+        }
+
+        # ---------------------------------------------
+        # Academic averages by status
+        # ---------------------------------------------
+
+        grouped = (
+            df.groupby("passed_status")
+            .agg(
+                average_gpa=("previous_gpa", "mean"),
+                average_attendance=(
+                    "attendance_percentage",
+                    "mean"
+                ),
+                average_study_hours=(
+                    "study_hours",
+                    "mean"
+                )
+            )
+            .round(2)
+        )
+
+        academic_comparison = {
+            "at_risk": {
+                "average_gpa": float(
+                    grouped.loc[0, "average_gpa"]
+                ) if 0 in grouped.index else 0,
+
+                "average_attendance": float(
+                    grouped.loc[
+                        0,
+                        "average_attendance"
+                    ]
+                ) if 0 in grouped.index else 0,
+
+                "average_study_hours": float(
+                    grouped.loc[
+                        0,
+                        "average_study_hours"
+                    ]
+                ) if 0 in grouped.index else 0
+            },
+
+            "safe": {
+                "average_gpa": float(
+                    grouped.loc[1, "average_gpa"]
+                ) if 1 in grouped.index else 0,
+
+                "average_attendance": float(
+                    grouped.loc[
+                        1,
+                        "average_attendance"
+                    ]
+                ) if 1 in grouped.index else 0,
+
+                "average_study_hours": float(
+                    grouped.loc[
+                        1,
+                        "average_study_hours"
+                    ]
+                ) if 1 in grouped.index else 0
+            }
+        }
+
+        return {
+
+            "success": True,
+
+            "summary": {
+
+                "total_students":
+                    total_students,
+
+                "at_risk_students":
+                    at_risk_students,
+
+                "safe_students":
+                    safe_students,
+
+                "at_risk_percentage":
+                    at_risk_percentage,
+
+                "safe_percentage":
+                    safe_percentage,
+
+                "average_gpa":
+                    average_gpa,
+
+                "average_attendance":
+                    average_attendance,
+
+                "average_study_hours":
+                    average_study_hours
+            },
+
+            "risk_distribution":
+                risk_distribution,
+
+            "education_distribution":
+                education_distribution,
+
+            "academic_comparison":
+                academic_comparison
+        }
+
+    except Exception as error:
+
+        return {
+            "success": False,
+            "error": str(error)
+        }
