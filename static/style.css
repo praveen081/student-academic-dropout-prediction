@@ -873,3 +873,179 @@ button:disabled {
     }
 
 }
+/* =========================================================
+   MODEL PERFORMANCE
+========================================================= */
+
+.section-heading {
+    margin-bottom: 20px;
+}
+
+.section-heading h2 {
+    margin-bottom: 6px;
+}
+
+.section-heading p {
+    margin: 0;
+    color: #64748b;
+}
+
+
+.model-performance-container {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(320px, 1fr)
+    );
+    gap: 20px;
+}
+
+
+.model-performance-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 4px 14px rgba(
+        15,
+        23,
+        42,
+        0.06
+    );
+}
+
+
+.model-card-header {
+    margin-bottom: 20px;
+}
+
+
+.model-card-header h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #0f172a;
+}
+
+
+.model-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        2,
+        1fr
+    );
+    gap: 12px;
+}
+
+
+.model-metric {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+}
+
+
+.model-metric span {
+    display: block;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+
+.model-metric strong {
+    display: block;
+    font-size: 20px;
+    color: #0f172a;
+}
+
+
+.cv-description {
+    margin-top: 18px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+
+/* =========================================================
+   ANALYTICS IMAGE SECTION
+========================================================= */
+
+.analytics-image-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(300px, 1fr)
+    );
+    gap: 20px;
+}
+
+
+.analytics-image-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 4px 14px rgba(
+        15,
+        23,
+        42,
+        0.06
+    );
+}
+
+
+.analytics-image-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #0f172a;
+}
+
+
+.analytics-image-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+
+/* =========================================================
+   DASHBOARD ERROR
+========================================================= */
+
+.dashboard-error {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 10px;
+    padding: 16px;
+    color: #9a3412;
+}
+
+
+.dashboard-error p {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   MOBILE RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .model-metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .model-performance-container {
+        grid-template-columns: 1fr;
+    }
+
+
+    .analytics-image-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
