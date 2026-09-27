@@ -14,15 +14,20 @@ const recommendations = document.getElementById("recommendations");
 
 
 form.addEventListener("submit", async function (event) {
+
     event.preventDefault();
 
+    // Hide previous messages
     errorBox.style.display = "none";
     result.style.display = "none";
 
+    // Show loading
     loading.style.display = "block";
     predictButton.disabled = true;
     predictButton.textContent = "Analyzing...";
 
+
+    // Get form values
     const studyHours = Number(
         document.getElementById("study_hours").value
     );
@@ -40,81 +45,178 @@ form.addEventListener("submit", async function (event) {
 
 
     try {
+
+        // Send prediction request
         const response = await fetch("/predict", {
+
             method: "POST",
+
             headers: {
                 "Content-Type": "application/json"
             },
+
             body: JSON.stringify({
+
                 study_hours: studyHours,
-                attendance_percentage: attendancePercentage,
-                previous_gpa: previousGpa,
-                parental_education: parentalEducation
+
+                attendance_percentage:
+                    attendancePercentage,
+
+                previous_gpa:
+                    previousGpa,
+
+                parental_education:
+                    parentalEducation
             })
         });
 
 
+        // Convert response to JSON
         const resultData = await response.json();
 
 
+        // Check API response
         if (!response.ok) {
+
             throw new Error(
-                resultData.detail || "Prediction failed."
+                resultData.detail ||
+                resultData.error ||
+                "Prediction failed."
             );
         }
 
 
-        // Prediction
-        prediction.textContent = resultData.prediction;
+        // =========================================
+        // DISPLAY PREDICTION
+        // =========================================
+
+        prediction.textContent =
+            resultData.prediction;
+
+
+        // =========================================
+        // DISPLAY RISK PROBABILITY
+        // =========================================
 
         riskProbability.textContent =
             `${Number(resultData.risk_probability).toFixed(2)}%`;
 
-        riskLevel.textContent = resultData.risk_level;
+
+        // =========================================
+        // DISPLAY RISK LEVEL
+        // =========================================
+
+        riskLevel.textContent =
+            resultData.risk_level;
 
 
-        // Display risk factors
-        if (Array.isArray(resultData.risk_factors)) {
-            riskFactors.innerHTML = resultData.risk_factors
-                .map(factor => `<p>• ${factor}</p>`)
-                .join("");
+        // =========================================
+        // DISPLAY RISK FACTORS
+        // =========================================
+
+        riskFactors.innerHTML = "";
+
+
+        if (
+            Array.isArray(resultData.risk_factors)
+        ) {
+
+            resultData.risk_factors.forEach(
+                function (factor) {
+
+                    const li =
+                        document.createElement("li");
+
+                    li.textContent = factor;
+
+                    riskFactors.appendChild(li);
+                }
+            );
+
         } else {
-            riskFactors.innerHTML =
-                `<p>${resultData.risk_factors || "No major warning signs identified."}</p>`;
+
+            const li =
+                document.createElement("li");
+
+            li.textContent =
+                resultData.risk_factors ||
+                "No major warning signs identified.";
+
+            riskFactors.appendChild(li);
         }
 
 
-        // Display recommendations
-        if (Array.isArray(resultData.recommendations)) {
-            recommendations.innerHTML = resultData.recommendations
-                .map(item => `<p>• ${item}</p>`)
-                .join("");
+        // =========================================
+        // DISPLAY RECOMMENDATIONS
+        // =========================================
+
+        recommendations.innerHTML = "";
+
+
+        if (
+            Array.isArray(resultData.recommendations)
+        ) {
+
+            resultData.recommendations.forEach(
+                function (recommendation) {
+
+                    const li =
+                        document.createElement("li");
+
+                    li.textContent = recommendation;
+
+                    recommendations.appendChild(li);
+                }
+            );
+
         } else {
-            recommendations.innerHTML =
-                `<p>${resultData.recommendations || "Continue maintaining good academic performance."}</p>`;
+
+            const li =
+                document.createElement("li");
+
+            li.textContent =
+                resultData.recommendations ||
+                "Continue maintaining good academic performance.";
+
+            recommendations.appendChild(li);
         }
 
 
-        // Show result
+        // =========================================
+        // SHOW RESULT
+        // =========================================
+
         result.style.display = "block";
 
+
+        // Scroll to result
         result.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
 
+
     } catch (error) {
 
+        // Display error
         errorBox.textContent =
-            error.message || "Something went wrong.";
+            error.message ||
+            "Something went wrong.";
 
         errorBox.style.display = "block";
 
+
     } finally {
 
+        // Hide loading
         loading.style.display = "none";
 
+
+        // Reset button
         predictButton.disabled = false;
-        predictButton.textContent = "Analyze Student Risk";
+
+        predictButton.textContent =
+            "Analyze Student Risk";
     }
+
 });
