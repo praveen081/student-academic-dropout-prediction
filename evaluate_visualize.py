@@ -15,7 +15,7 @@ from sklearn.metrics import (
     make_scorer
 )
 
-from data_preprocessing import load_data
+from data_preprocessing import load_data,prepare_data
 
 MODEL_PATH = Path("models/best_model.joblib")
 TEST_DATA_PATH = Path("models/test_data.joblib")
@@ -30,12 +30,13 @@ def evaluate_model():
     X_test = test_data["X_test"]
     y_test = test_data["y_test"]
     best_name = test_data["best_name"]
+    X, y, _ = prepare_data()
 
     predictions = model.predict(X_test)
 
     accuracy = accuracy_score(y_test, predictions)
-    precision = precision_score(y_test, predictions, zero_division=0)
-    recall = recall_score(y_test, predictions, zero_division=0)
+    precision = precision_score(y_test, predictions, pos_label=0, zero_division=0)
+    recall = recall_score(y_test, predictions, pos_label=0, zero_division=0)
      f1 = f1_score(y_test, predictions, pos_label=0)
     y_probability = model.predict_proba(X_test)[:, list(model.classes_).index(0)]
     roc_auc = roc_auc_score( y_test,y_probability)
