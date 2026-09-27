@@ -11,7 +11,7 @@
     >
 
     <title>
-        Academic Analytics Dashboard
+        Student Academic Risk Analytics Dashboard
     </title>
 
     <link
@@ -24,326 +24,467 @@
 
 <body>
 
-<div class="container">
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-    <!-- HEADER -->
+    <header class="dashboard-header">
 
-    <div class="header">
+        <div>
 
-        <div class="badge">
-            ACADEMIC ANALYTICS
-        </div>
+            <h1>
+                Student Academic Risk Analytics
+            </h1>
 
-        <h1>
-            Student Risk Dashboard
-        </h1>
-
-        <p>
-            Academic performance and dropout-risk overview
-        </p>
-
-        <div class="navigation">
-
-            <a href="/">
-                ← Student Prediction
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- KPI CARDS -->
-
-    <div class="dashboard-grid">
-
-        <div class="dashboard-card">
-
-            <div class="dashboard-label">
-                TOTAL STUDENTS
-            </div>
-
-            <div
-                id="totalStudents"
-                class="dashboard-value"
-            >
-                --
-            </div>
+            <p>
+                Early-Warning System Dashboard
+            </p>
 
         </div>
 
 
-        <div class="dashboard-card">
-
-            <div class="dashboard-label">
-                AT RISK
-            </div>
-
-            <div
-                id="atRiskStudents"
-                class="dashboard-value danger-text"
-            >
-                --
-            </div>
-
-        </div>
-
-
-        <div class="dashboard-card">
-
-            <div class="dashboard-label">
-                SAFE
-            </div>
-
-            <div
-                id="safeStudents"
-                class="dashboard-value safe-text"
-            >
-                --
-            </div>
-
-        </div>
-
-
-        <div class="dashboard-card">
-
-            <div class="dashboard-label">
-                AVERAGE GPA
-            </div>
-
-            <div
-                id="averageGpa"
-                class="dashboard-value"
-            >
-                --
-            </div>
-
-        </div>
-
-
-        <div class="dashboard-card">
-
-            <div class="dashboard-label">
-                AVG ATTENDANCE
-            </div>
-
-            <div
-                id="averageAttendance"
-                class="dashboard-value"
-            >
-                --
-            </div>
-
-        </div>
-
-
-        <div class="dashboard-card">
-
-            <div class="dashboard-label">
-                AVG STUDY HOURS
-            </div>
-
-            <div
-                id="averageStudyHours"
-                class="dashboard-value"
-            >
-                --
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- RISK DISTRIBUTION -->
-
-    <div class="dashboard-section">
-
-        <h2>
-            Risk Distribution
-        </h2>
-
-        <div class="risk-bars">
-
-            <div class="bar-row">
-
-                <div class="bar-label">
-
-                    <span>
-                        At Risk
-                    </span>
-
-                    <span id="atRiskPercentage">
-                        --
-                    </span>
-
-                </div>
-
-                <div class="bar-background">
-
-                    <div
-                        id="atRiskBar"
-                        class="bar danger-bar"
-                    >
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="bar-row">
-
-                <div class="bar-label">
-
-                    <span>
-                        Safe
-                    </span>
-
-                    <span id="safePercentage">
-                        --
-                    </span>
-
-                </div>
-
-                <div class="bar-background">
-
-                    <div
-                        id="safeBar"
-                        class="bar safe-bar"
-                    >
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ACADEMIC COMPARISON -->
-
-    <div class="dashboard-section">
-
-        <h2>
-            Academic Comparison
-        </h2>
-
-        <div class="comparison-grid">
-
-            <div class="comparison-card">
-
-                <h3>
-                    At Risk Students
-                </h3>
-
-                <p>
-                    Average GPA:
-                    <strong
-                        id="riskGpa"
-                    >
-                        --
-                    </strong>
-                </p>
-
-                <p>
-                    Average Attendance:
-                    <strong
-                        id="riskAttendance"
-                    >
-                        --
-                    </strong>%
-                </p>
-
-                <p>
-                    Average Study Hours:
-                    <strong
-                        id="riskStudyHours"
-                    >
-                        --
-                    </strong>
-                </p>
-
-            </div>
-
-
-            <div class="comparison-card">
-
-                <h3>
-                    Safe Students
-                </h3>
-
-                <p>
-                    Average GPA:
-                    <strong
-                        id="safeGpa"
-                    >
-                        --
-                    </strong>
-                </p>
-
-                <p>
-                    Average Attendance:
-                    <strong
-                        id="safeAttendance"
-                    >
-                        --
-                    </strong>%
-                </p>
-
-                <p>
-                    Average Study Hours:
-                    <strong
-                        id="safeStudyHours"
-                    >
-                        --
-                    </strong>
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- EDUCATION DISTRIBUTION -->
-
-    <div class="dashboard-section">
-
-        <h2>
-            Parental Education Distribution
-        </h2>
-
-        <div
-            id="educationDistribution"
-            class="education-list"
+        <a
+            href="/"
+            class="dashboard-nav-button"
         >
-        </div>
+            Student Assessment
+        </a>
 
-    </div>
+    </header>
 
 
-    <!-- FOOTER -->
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
 
-    <div class="footer">
+    <main class="dashboard-container">
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="dashboard-intro">
+
+            <h2>
+                Academic Risk Overview
+            </h2>
+
+            <p>
+                Analyze student performance, risk distribution,
+                academic indicators and machine learning model
+                performance.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             KPI CARDS
+        ================================================== -->
+
+        <section class="dashboard-grid">
+
+
+            <div class="dashboard-card">
+
+                <span class="dashboard-label">
+                    Total Students
+                </span>
+
+                <span
+                    id="totalStudents"
+                    class="dashboard-value"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <span class="dashboard-label">
+                    At-Risk Students
+                </span>
+
+                <span
+                    id="atRiskStudents"
+                    class="dashboard-value danger-text"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <span class="dashboard-label">
+                    Safe Students
+                </span>
+
+                <span
+                    id="safeStudents"
+                    class="dashboard-value safe-text"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <span class="dashboard-label">
+                    Average GPA
+                </span>
+
+                <span
+                    id="averageGpa"
+                    class="dashboard-value"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <span class="dashboard-label">
+                    Average Attendance
+                </span>
+
+                <span
+                    id="averageAttendance"
+                    class="dashboard-value"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <span class="dashboard-label">
+                    Average Study Hours
+                </span>
+
+                <span
+                    id="averageStudyHours"
+                    class="dashboard-value"
+                >
+                    --
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             RISK DISTRIBUTION
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                Risk Distribution
+            </h2>
+
+            <div class="risk-bars">
+
+
+                <div class="risk-bar-item">
+
+                    <div class="risk-bar-header">
+
+                        <span>
+                            At Risk
+                        </span>
+
+                        <span id="atRiskPercentage">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <div class="risk-bar-background">
+
+                        <div
+                            id="atRiskBar"
+                            class="risk-bar risk-bar-danger"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="risk-bar-item">
+
+                    <div class="risk-bar-header">
+
+                        <span>
+                            Safe
+                        </span>
+
+                        <span id="safePercentage">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <div class="risk-bar-background">
+
+                        <div
+                            id="safeBar"
+                            class="risk-bar risk-bar-safe"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ACADEMIC COMPARISON
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                Academic Comparison
+            </h2>
+
+            <div class="comparison-grid">
+
+
+                <!-- At Risk -->
+
+                <div class="comparison-card">
+
+                    <h3>
+                        At-Risk Students
+                    </h3>
+
+                    <p>
+                        Average GPA:
+                        <strong id="riskGpa">
+                            --
+                        </strong>
+                    </p>
+
+                    <p>
+                        Average Attendance:
+                        <strong id="riskAttendance">
+                            --
+                        </strong>
+                    </p>
+
+                    <p>
+                        Average Study Hours:
+                        <strong id="riskStudyHours">
+                            --
+                        </strong>
+                    </p>
+
+                </div>
+
+
+                <!-- Safe -->
+
+                <div class="comparison-card">
+
+                    <h3>
+                        Safe Students
+                    </h3>
+
+                    <p>
+                        Average GPA:
+                        <strong id="safeGpa">
+                            --
+                        </strong>
+                    </p>
+
+                    <p>
+                        Average Attendance:
+                        <strong id="safeAttendance">
+                            --
+                        </strong>
+                    </p>
+
+                    <p>
+                        Average Study Hours:
+                        <strong id="safeStudyHours">
+                            --
+                        </strong>
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PARENTAL EDUCATION
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                Parental Education Distribution
+            </h2>
+
+            <div
+                id="educationDistribution"
+                class="education-list"
+            >
+
+                <p>
+                    Loading...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MACHINE LEARNING MODEL PERFORMANCE
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Machine Learning Model Performance
+                    </h2>
+
+                    <p>
+                        Comparison of classification models used
+                        for student academic risk prediction.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="modelPerformance"
+                class="model-performance-container"
+            >
+
+                <p>
+                    Loading model performance...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ANALYTICS VISUALIZATIONS
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                Model Analytics
+            </h2>
+
+            <div class="analytics-image-grid">
+
+
+                <div class="analytics-image-card">
+
+                    <h3>
+                        Confusion Matrix
+                    </h3>
+
+                    <img
+                        src="/outputs/confusion_matrix.png"
+                        alt="Confusion Matrix"
+                    >
+
+                </div>
+
+
+                <div class="analytics-image-card">
+
+                    <h3>
+                        Feature Importance
+                    </h3>
+
+                    <img
+                        src="/outputs/feature_importance.png"
+                        alt="Feature Importance"
+                    >
+
+                </div>
+
+
+                <div class="analytics-image-card">
+
+                    <h3>
+                        Correlation Heatmap
+                    </h3>
+
+                    <img
+                        src="/outputs/correlation_heatmap.png"
+                        alt="Correlation Heatmap"
+                    >
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="dashboard-footer">
 
         <p>
             Student Academic Risk Analytics & Early-Warning System
         </p>
 
         <p>
-            Data source: SQLite student performance dataset
+            Machine Learning Based Academic Risk Prediction
         </p>
 
-    </div>
-
-</div>
+    </footer>
 
 
-<script src="/static/dashboard.js"></script>
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script
+        src="/static/dashboard.js"
+    ></script>
 
 </body>
 
