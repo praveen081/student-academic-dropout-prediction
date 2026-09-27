@@ -16,11 +16,9 @@ const recommendations = document.getElementById("recommendations");
 form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    // Hide previous messages
     errorBox.style.display = "none";
     result.style.display = "none";
 
-    // Show loading state
     loading.style.display = "block";
     predictButton.disabled = true;
     predictButton.textContent = "Analyzing...";
@@ -66,10 +64,7 @@ form.addEventListener("submit", async function (event) {
         }
 
 
-        // -----------------------------
         // Prediction
-        // -----------------------------
-
         prediction.textContent = resultData.prediction;
 
         riskProbability.textContent =
@@ -78,58 +73,31 @@ form.addEventListener("submit", async function (event) {
         riskLevel.textContent = resultData.risk_level;
 
 
-        // -----------------------------
-        // Risk Factors
-        // -----------------------------
-
-        riskFactors.innerHTML = "";
-
-        if (
-            resultData.risk_factors &&
-            resultData.risk_factors.length > 0
-        ) {
-            resultData.risk_factors.forEach(function (factor) {
-                const li = document.createElement("li");
-                li.textContent = factor;
-                riskFactors.appendChild(li);
-            });
+        // Display risk factors
+        if (Array.isArray(resultData.risk_factors)) {
+            riskFactors.innerHTML = resultData.risk_factors
+                .map(factor => `<p>• ${factor}</p>`)
+                .join("");
         } else {
-            const li = document.createElement("li");
-            li.textContent = "No significant risk factors identified.";
-            riskFactors.appendChild(li);
+            riskFactors.innerHTML =
+                `<p>${resultData.risk_factors || "No major warning signs identified."}</p>`;
         }
 
 
-        // -----------------------------
-        // Recommendations
-        // -----------------------------
-
-        recommendations.innerHTML = "";
-
-        if (
-            resultData.recommendations &&
-            resultData.recommendations.length > 0
-        ) {
-            resultData.recommendations.forEach(function (recommendation) {
-                const li = document.createElement("li");
-                li.textContent = recommendation;
-                recommendations.appendChild(li);
-            });
+        // Display recommendations
+        if (Array.isArray(resultData.recommendations)) {
+            recommendations.innerHTML = resultData.recommendations
+                .map(item => `<p>• ${item}</p>`)
+                .join("");
         } else {
-            const li = document.createElement("li");
-            li.textContent = "Continue maintaining good academic habits.";
-            recommendations.appendChild(li);
+            recommendations.innerHTML =
+                `<p>${resultData.recommendations || "Continue maintaining good academic performance."}</p>`;
         }
 
 
-        // -----------------------------
         // Show result
-        // -----------------------------
-
         result.style.display = "block";
 
-
-        // Scroll to result
         result.scrollIntoView({
             behavior: "smooth",
             block: "start"
