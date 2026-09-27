@@ -1,325 +1,152 @@
-// ============================================================
-// STUDENT PREDICTION SCRIPT
-// ============================================================
-
 const form = document.getElementById("predictionForm");
+const predictButton = document.getElementById("predictButton");
 
-const predictButton =
-    document.getElementById("predictButton");
+const loading = document.getElementById("loading");
+const result = document.getElementById("result");
+const errorBox = document.getElementById("error");
 
-const loading =
-    document.getElementById("loading");
+const prediction = document.getElementById("prediction");
+const riskProbability = document.getElementById("riskProbability");
+const riskLevel = document.getElementById("riskLevel");
 
-const result =
-    document.getElementById("result");
-
-const errorBox =
-    document.getElementById("error");
-
-const prediction =
-    document.getElementById("prediction");
-
-const riskProbability =
-    document.getElementById("riskProbability");
-
-const recommendation =
-    document.getElementById("recommendation");
+const riskFactors = document.getElementById("riskFactors");
+const recommendations = document.getElementById("recommendations");
 
 
-// ============================================================
-// CHECK REQUIRED ELEMENTS
-// ============================================================
+form.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-if (!form) {
+    // Hide previous messages
+    errorBox.style.display = "none";
+    result.style.display = "none";
 
-    console.error(
-        "Prediction form was not found."
+    // Show loading state
+    loading.style.display = "block";
+    predictButton.disabled = true;
+    predictButton.textContent = "Analyzing...";
+
+    const studyHours = Number(
+        document.getElementById("study_hours").value
     );
 
-}
-
-
-// ============================================================
-// FORM SUBMISSION
-// ============================================================
-
-if (form) {
-
-    form.addEventListener(
-        "submit",
-        async function (event) {
-
-            event.preventDefault();
-
-
-            // ------------------------------------------------
-            // Hide previous messages
-            // ------------------------------------------------
-
-            if (result) {
-                result.classList.add("hidden");
-            }
-
-            if (errorBox) {
-                errorBox.classList.add("hidden");
-            }
-
-
-            // ------------------------------------------------
-            // Show loading
-            // ------------------------------------------------
-
-            if (loading) {
-                loading.classList.remove("hidden");
-            }
-
-            if (predictButton) {
-
-                predictButton.disabled = true;
-
-                predictButton.textContent =
-                    "Analyzing...";
-            }
-
-
-            // ------------------------------------------------
-            // Read form values
-            // ------------------------------------------------
-
-            const studyHoursElement =
-                document.getElementById(
-                    "study_hours"
-                );
-
-            const attendanceElement =
-                document.getElementById(
-                    "attendance_percentage"
-                );
-
-            const gpaElement =
-                document.getElementById(
-                    "previous_gpa"
-                );
-
-            const educationElement =
-                document.getElementById(
-                    "parental_education"
-                );
-
-
-            const data = {
-
-                study_hours:
-                    parseFloat(
-                        studyHoursElement.value
-                    ),
-
-                attendance_percentage:
-                    parseFloat(
-                        attendanceElement.value
-                    ),
-
-                previous_gpa:
-                    parseFloat(
-                        gpaElement.value
-                    ),
-
-                parental_education:
-                    educationElement.value
-            };
-
-
-            // ------------------------------------------------
-            // Send request to FastAPI
-            // ------------------------------------------------
-
-            try {
-
-                const response =
-                    await fetch(
-                        "/predict",
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify(data)
-                        }
-                    );
-
-
-                const resultData =
-                    await response.json();
-
-
-                // ------------------------------------------------
-                // Check backend response
-                // ------------------------------------------------
-
-                if (!resultData.success) {
-
-                    throw new Error(
-                        resultData.error ||
-                        "Prediction failed."
-                    );
-                }
-
-
-                // ------------------------------------------------
-                // Display prediction
-                // ------------------------------------------------
-
-                if (prediction) {
-
-                    prediction.textContent =
-                        resultData.prediction;
-                }
-
-
-                // ------------------------------------------------
-                // Display risk probability
-                // ------------------------------------------------
-
-                if (riskProbability) {
-
-                    riskProbability.textContent =
-                        `${resultData.risk_probability}%`;
-                }
-
-
-                // ------------------------------------------------
-                // Display recommendations
-                // ------------------------------------------------
-
-                if (recommendation) {
-
-                    if (
-                        Array.isArray(
-                            resultData.recommendations
-                        )
-                    ) {
-
-                        recommendation.innerHTML =
-                            resultData.recommendations
-                                .map(
-                                    item =>
-                                        `<div>• ${item}</div>`
-                                )
-                                .join("");
-
-                    } else {
-
-                        recommendation.textContent =
-                            resultData.recommendations ||
-                            "Continue monitoring academic performance.";
-                    }
-                }
-
-
-                // ------------------------------------------------
-                // Remove previous styling
-                // ------------------------------------------------
-
-                if (result) {
-
-                    result.classList.remove(
-                        "safe",
-                        "risk",
-                        "medium"
-                    );
-                }
-
-
-                // ------------------------------------------------
-                // Apply prediction styling
-                // ------------------------------------------------
-
-                if (result) {
-
-                    if (
-                        resultData.prediction ===
-                        "AT RISK"
-                    ) {
-
-                        result.classList.add(
-                            "risk"
-                        );
-
-                    } else {
-
-                        result.classList.add(
-                            "safe"
-                        );
-                    }
-                }
-
-
-                // ------------------------------------------------
-                // Show result
-                // ------------------------------------------------
-
-                if (result) {
-
-                    result.classList.remove(
-                        "hidden"
-                    );
-                }
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Prediction error:",
-                    error
-                );
-
-
-                if (errorBox) {
-
-                    errorBox.textContent =
-                        error.message;
-
-                    errorBox.classList.remove(
-                        "hidden"
-                    );
-                }
-            }
-
-
-            finally {
-
-                // ------------------------------------------------
-                // Hide loading
-                // ------------------------------------------------
-
-                if (loading) {
-
-                    loading.classList.add(
-                        "hidden"
-                    );
-                }
-
-
-                // ------------------------------------------------
-                // Reset button
-                // ------------------------------------------------
-
-                if (predictButton) {
-
-                    predictButton.disabled =
-                        false;
-
-                    predictButton.textContent =
-                        "Predict Dropout Risk";
-                }
-            }
-
+    const attendancePercentage = Number(
+        document.getElementById("attendance_percentage").value
+    );
+
+    const previousGpa = Number(
+        document.getElementById("previous_gpa").value
+    );
+
+    const parentalEducation =
+        document.getElementById("parental_education").value;
+
+
+    try {
+        const response = await fetch("/predict", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                study_hours: studyHours,
+                attendance_percentage: attendancePercentage,
+                previous_gpa: previousGpa,
+                parental_education: parentalEducation
+            })
+        });
+
+
+        const resultData = await response.json();
+
+
+        if (!response.ok) {
+            throw new Error(
+                resultData.detail || "Prediction failed."
+            );
         }
-    );
 
-}
+
+        // -----------------------------
+        // Prediction
+        // -----------------------------
+
+        prediction.textContent = resultData.prediction;
+
+        riskProbability.textContent =
+            `${Number(resultData.risk_probability).toFixed(2)}%`;
+
+        riskLevel.textContent = resultData.risk_level;
+
+
+        // -----------------------------
+        // Risk Factors
+        // -----------------------------
+
+        riskFactors.innerHTML = "";
+
+        if (
+            resultData.risk_factors &&
+            resultData.risk_factors.length > 0
+        ) {
+            resultData.risk_factors.forEach(function (factor) {
+                const li = document.createElement("li");
+                li.textContent = factor;
+                riskFactors.appendChild(li);
+            });
+        } else {
+            const li = document.createElement("li");
+            li.textContent = "No significant risk factors identified.";
+            riskFactors.appendChild(li);
+        }
+
+
+        // -----------------------------
+        // Recommendations
+        // -----------------------------
+
+        recommendations.innerHTML = "";
+
+        if (
+            resultData.recommendations &&
+            resultData.recommendations.length > 0
+        ) {
+            resultData.recommendations.forEach(function (recommendation) {
+                const li = document.createElement("li");
+                li.textContent = recommendation;
+                recommendations.appendChild(li);
+            });
+        } else {
+            const li = document.createElement("li");
+            li.textContent = "Continue maintaining good academic habits.";
+            recommendations.appendChild(li);
+        }
+
+
+        // -----------------------------
+        // Show result
+        // -----------------------------
+
+        result.style.display = "block";
+
+
+        // Scroll to result
+        result.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    } catch (error) {
+
+        errorBox.textContent =
+            error.message || "Something went wrong.";
+
+        errorBox.style.display = "block";
+
+    } finally {
+
+        loading.style.display = "none";
+
+        predictButton.disabled = false;
+        predictButton.textContent = "Analyze Student Risk";
+    }
+});
